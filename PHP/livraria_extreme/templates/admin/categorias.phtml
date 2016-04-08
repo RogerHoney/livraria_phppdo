@@ -1,0 +1,25 @@
+<h3>Categorias</h3>
+<p><a href="?edit=0">Adicionar</a><<br>/p>
+    {if $edit >=0}
+        <form method="post">
+            <label>Nome: <input type="text" name="data[nome]" value="{$categoria.nome}"></label>
+            <label><input type="submit" name="submit" value="Salvar"></label>
+            <input type="hidden" name="id" value="{$edit}">
+        </form>
+
+        <div class="clearfix"></div>
+    {/if}   
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Nome</th>
+    </thead>
+    <tbody>
+        {section name=i loop=$categorias}
+        <tr>
+           <td>{$categorias[i].id}</td>
+           <td>{$categorias[i].nome}</td>
+        </tr>
+        {/section}
+    </tbody>
+</table>
