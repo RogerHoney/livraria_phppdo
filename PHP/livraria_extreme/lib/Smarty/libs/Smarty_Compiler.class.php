@@ -268,11 +268,13 @@ class Smarty_Compiler extends Smarty {
                                        . $this->_quote_replace($this->right_delimiter)
                                        . "'"
                                        , $source_content);*/
-		$source_content = preg_replace_callback(
-			"/\{([<>])([a-zA-Z0-9_]*)(\?{0,1})([a-zA-Z0-9_]*)\}(.*)\{\\1\/\\2\}/isU",
-			function($m) { return CallFunction($m[1], $m[2], $m[3], $m[4], $m[5]); },
-			$result
-		);
+        
+        $source_content = preg_replace_callback($search, create_function ('$matches', "return '"
+                                       . $this->_quote_replace($this->left_delimiter) . 'php'
+                                       . "' . str_repeat(\"\n\", substr_count('\$matches[1]', \"\n\")) .'"
+                                       . $this->_quote_replace($this->right_delimiter)
+                                       . "';")
+                                       , $source_content); 
 
         /* Gather all template tags. */
         preg_match_all("~{$ldq}\s*(.*?)\s*{$rdq}~s", $source_content, $_match);

@@ -20,4 +20,3 @@ require_once 'config/index.php';
 
 $smarty->assign('content','admin/categorias.phtml');
 $smarty->display('admin/layout.phtml');
-

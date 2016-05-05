@@ -4,6 +4,23 @@ abstract class Livraria_Db_Abstract{
     protected $id = null;
     protected $_table = null;
     
+    public function __construct(array $options = null) {
+        if(count($options))
+            $this->setOptions ($options);
+    }
+
+
+    public function setOptions(array $options){
+        $methods = get_class_methods($this);
+        foreach ($options as $key => $value){
+            $method = 'set' .ucfirst($key);
+            if(in_array($method, $methods))
+                    $this->$method($value);
+        }
+        return $this;
+    }
+
+
     public function getId(){
         return $this->id;
     }
@@ -18,26 +35,19 @@ abstract class Livraria_Db_Abstract{
     
     public function fetchAll() {
         $db = $this->getDb();
-        $stm = $db->prepare('SELECT * FROM ' .$this->_table);
+        $stm = $db->prepare('select * from ' . $this->_table);
         $stm->execute();
         return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function find() {
         $db = $this->getDb();
-        $stm = $db->prepare('SELECT * FROM' .$this->_table. ' where id =:id');
+        $stm = $db->prepare("select * from " . $this->_table . ' where id=:id');
         $stm->bindValue(':id', $this->getId());
         $stm->execute();
         return $stm->fetch(PDO::FETCH_ASSOC);
     }
-    
-    public function delete() {
-       $db = $this->getDb();
-       $stm = $db->prepare("delete from" .$this->_table. "where id=:id");
-       $stm->bindValue(":id", $this->getId());
-       return $stm->execute();
-       
-    }
+   
     
     abstract protected function _insert();
     
@@ -56,6 +66,13 @@ abstract class Livraria_Db_Abstract{
         }
     }
 
+    public function delete() {
+     $db = $this->getDb();
+     $stm = $db->prepare("delete from" .$this->_table. "where id=:id");
+     $stm->bindValue(":id", $this->getId());
+     return $stm->execute();
+       
+    }
 
     public function getDb() {
         global $config;

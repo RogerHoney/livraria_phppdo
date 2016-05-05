@@ -9,10 +9,10 @@ class Livraria_Db_Adapter_Mysql implements Livraria_Db_Adapter_Interface{
 
             $dsn = $config['adapter'] . ":host=" . $config['hostname'] . ";dbname=" . $config['dbname'];
             try {
-                $pdo = new PDO($dsn, $config['user'], $config['password']);
-                return $pdo;
+                self::$instance = new PDO($dsn, $config['user'], $config['password']);
+                
             } catch (PDOException $e) {
-                echo $e->getMessage();
+                die( $e->getMessage());
             }
             return self::$instance;
         }
