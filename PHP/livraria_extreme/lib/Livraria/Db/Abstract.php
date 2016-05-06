@@ -68,8 +68,8 @@ abstract class Livraria_Db_Abstract{
 
     public function delete() {
      $db = $this->getDb();
-     $stm = $db->prepare("delete from" .$this->_table. "where id=:id");
-     $stm->bindValue(":id", $this->getId());
+     $stm = $db->prepare('delete from ' .$this->_table. ' where id=:id');
+     $stm->bindValue(':id', $this->getId());
      return $stm->execute();
        
     }

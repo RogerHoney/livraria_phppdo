@@ -8,22 +8,29 @@ if(!isset($_REQUEST['delete']))
 if(!isset($_REQUEST['edit'])) 
     $_REQUEST['edit'] = -1;
 
-/*if($_REQUEST['edit']>0) {
+if($_REQUEST['edit']>0) {
     $categoria = new Livraria_Categoria();
     $categoria->setId($_REQUEST['edit']);
     $smarty->assign('categoria',$categoria->find());
 }
-*/
+
 //salvar
-/*if(isset($_REQUEST['submit'])){
+if(isset($_REQUEST['submit'])){
     $categoria = new Livraria_Categoria($_REQUEST['data']);
     if($_REQUEST['id']>0)
-        $categoria->setId ($_REQUEST('id'));
+        $categoria->setId($_REQUEST('id'));
     $categoria->save();
-    $smarty->assign('edit',$_REQUEST['edit']);
+    
+    $smarty->assign('categoria','');
     $_REQUEST['edit'] = -1;
 }
-*/
+
+if($_REQUEST['delete']>0){
+    $categoria = new Livraria_Categoria();
+    $categoria->setId($_REQUEST['delete']);
+    $categoria->delete();
+}
+
 $smarty->assign('edit',$_REQUEST['edit']);
 
 //lista
